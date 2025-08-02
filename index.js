@@ -1,12 +1,22 @@
-
-const express= require("express")
+const express = require("express")
+const mongoose = require("mongoose")
 
 const app = express()
+app.use(express.json())
 
-app.get("/" , (req , res)=>{
-    res.send(" creat the E-commerse API..")
-})
 
-app.listen(3000 , ()=>{
-    console.log(`start this api http://localhost::${3000}`)
-})
+mongoose.connect("mongodb://127.0.0.1:27017/ecommerce")
+  .then(() => console.log("MongoDB Connected"))
+  .catch((err) => console.log(err))
+
+const productRoutes = require("./routes/productRoutes")
+const userRoutes = require("./routes/userRoutes")
+
+
+app.use("/products", productRoutes)
+app.use("/users", userRoutes)
+
+
+app.listen(3000, () => {
+  console.log("api is runing3000")
+});
